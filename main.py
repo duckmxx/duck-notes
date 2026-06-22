@@ -65,12 +65,11 @@ def delete_note(file_path, note_index):
     if note_index < 1 or note_index > len(notes):
         print("Invalid note number.\n")
         return
-    else:
-        note_to_delete = notes[note_index - 1]
-        print(f'Deleting note "{note_to_delete["title"]}"')
-        notes.pop(note_index - 1)
-        with open(file_path, "w") as file:
-            json.dump(notes, file, indent=2)
+    note_to_delete = notes[note_index - 1]
+    print(f'Deleting note "{note_to_delete["title"]}"')
+    notes.pop(note_index - 1)
+    with open(file_path, "w") as file:
+        json.dump(notes, file, indent=2)
         
 
 check_create_file(file_path)
@@ -98,11 +97,13 @@ while True:
             except ValueError:
                 print("Please enter a valid number.\n")
                 continue
-            edit_choice = input("Would you like to edit the contents or the title? (T/C): ").lower()
-            if edit_choice == "t":
+            print("1. Edit title")
+            print("2. Edit contents")
+            edit_choice = input("Choice: ")
+            if edit_choice == "1":
                 new_title = input("New title: ")
                 edit_note(file_path, note_index, new_title=new_title)
-            elif edit_choice == "c":
+            elif edit_choice == "2":
                 new_content = input("New content: ")
                 edit_note(file_path, note_index, new_content=new_content)
             else:
