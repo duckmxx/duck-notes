@@ -20,7 +20,7 @@ def read_json(file_path):
 def display_json(file_path):
     notes = read_json(file_path)
     if not notes:               # Empty list evaluates to falsy
-        print("Wow, so empty.")
+        print("Wow, so empty.\n")
         return
     for index, note in enumerate(notes):
         print(f"Notes entry number {index + 1}.")
@@ -34,12 +34,36 @@ def save_json(file_path, title, content):
     
     with open(file_path, "w") as file:
         json.dump(notes, file, indent=2)
+    print("Note appended.\n")
+
+def edit_note(file_path, note_index, new_title=None, new_content=None):
+    notes = read_json(file_path)
+    if not notes:
+        print("Wow, can't edit nothing can you\n")
+        return
+    if note_index < 1 or note_index > len(notes):
+        print("Invalid note number.\n")
+        return
+    note = notes[note_index - 1]
+
+    if new_title is not None:
+        note["title"] = new_title
+    if new_content is not None:
+        note["content"] = new_content
+    
+    with open(file_path, "w") as file:
+        json.dump(notes, file, indent=2)
+    print("Note edited.\n")
+
 
 
 def delete_note(file_path, note_index):
     notes = read_json(file_path)
     if not notes:
-        print("Wow, can't delete nothing can you")
+        print("Wow, can't delete nothing can you\n")
+        return
+    if note_index < 1 or note_index > len(notes):
+        print("Invalid note number.\n")
         return
     else:
         note_to_delete = notes[note_index - 1]
@@ -54,7 +78,8 @@ check_create_file(file_path)
 while True:
     print("1. Read existing notes")
     print("2. Write a note")
-    print("3. Delete note")
+    print("3. Edit note")
+    print("4. Delete note")
     print("Q. Quit")
     choice = input("Please enter your choice: ")
     
@@ -67,9 +92,29 @@ while True:
             content = input("What is the contents?: ")
             save_json(file_path, title, content)
         case "3":
-            note_index = int(input("What note would you like to delete?: "))
-            delete_note(file_path, note_index)
+            display_json(file_path)
+            try:
+                note_index = int(input("What note would you like to edit?: "))
+            except ValueError:
+                print("Please enter a valid number.\n")
+                continue
+            edit_choice = input("Would you like to edit the contents or the title? (T/C): ").lower()
+            if edit_choice == "t":
+                new_title = input("New title: ")
+                edit_note(file_path, note_index, new_title=new_title)
+            elif edit_choice == "c":
+                new_content = input("New content: ")
+                edit_note(file_path, note_index, new_content=new_content)
+            else:
+                print("Invalid input.\n")
+        case "4":
+            display_json(file_path)
+            try:
+                note_index = int(input("What note would you like to delete?: "))
+                delete_note(file_path, note_index)
+            except ValueError:
+                print("Please enter a valid number.\n")
         case "q":
             break
         case _:
-            print("Invalid choice.")
+            print("Invalid input.\n")
