@@ -12,8 +12,21 @@
     <h1>Hello, {{ name }}</h1> 
     <hr>
     {% for note in notes %}
-    <h2>{{ note.title }}</h2>
-    <p>{{ note.content }}</p>
+    <div class="note">
+        <h2>{{ note.title }}</h2>
+        <p>{{ note.content }}</p>
+    </div>
     {% endfor %}
+    <form action="/add" method="POST">
+        <div class="note-form">
+            <label for="title">Title</label>
+            <input id="title" name="title">
+
+            <label for="content">Content</label>
+            <textarea id="content" name="content"></textarea>
+
+            <button type="submit">Save</button>
+        </div>
+    </form>
 </body>
 </html>

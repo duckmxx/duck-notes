@@ -7,3 +7,29 @@ body {
     margin: 0;
     padding-left: 20px;
 }
+
+.note {
+    background: #1e1e1e;
+    padding: 10px;
+    margin: 15px 0;
+    border-radius: 8px;
+}
+
+.note-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    max-width: 500px;
+}
+
+.note-form input,
+.note-form textarea {
+    padding: 18px;
+    font-size: 16px;
+}
+
+.note-form textarea {
+    min-height: 120px;
+    resize: vertical;
+}

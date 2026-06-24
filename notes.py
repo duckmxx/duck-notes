@@ -13,6 +13,12 @@ def check_create_file(file_path):
         with open(file_path, "w") as file:
             json.dump([], file)
 
+
+
+def write_json(notes, file_path):
+    with open(file_path, "w") as file:
+        json.dump(notes, file, indent=2)
+
 def read_json(file_path):
     with open(file_path, "r") as file:
         return json.load(file)
@@ -28,12 +34,11 @@ def display_json(file_path):
         print(f"Contents: {note['content']}")
         print("--------------------------")
 
-def save_json(file_path, title, content):
+def save_note(file_path, title, content):
     notes = read_json(file_path)
     notes.append({"title": title, "content": content})
     
-    with open(file_path, "w") as file:
-        json.dump(notes, file, indent=2)
+    write_json(notes, file_path)
     print("Note appended.\n")
 
 def edit_note(file_path, note_index, new_title=None, new_content=None):
@@ -51,8 +56,7 @@ def edit_note(file_path, note_index, new_title=None, new_content=None):
     if new_content is not None:
         note["content"] = new_content
     
-    with open(file_path, "w") as file:
-        json.dump(notes, file, indent=2)
+    write_json(notes, file_path)
     print("Note edited.\n")
 
 
@@ -68,8 +72,7 @@ def delete_note(file_path, note_index):
     note_to_delete = notes[note_index - 1]
     print(f'Deleting note "{note_to_delete["title"]}"')
     notes.pop(note_index - 1)
-    with open(file_path, "w") as file:
-        json.dump(notes, file, indent=2)
+    write_json(notes, file_path)
         
 
 
@@ -91,7 +94,7 @@ def main():
             case "2":
                 title = input("What is the title?: ")
                 content = input("What is the contents?: ")
-                save_json(file_path, title, content)
+                save_note(file_path, title, content)
             case "3":
                 display_json(file_path)
                 try:
