@@ -1,2 +1,2 @@
 # duck-notes
-Notes application built from scratch, self hostable.
+Simple notes app built with Flask, Jinja, and JSON for storing notes
