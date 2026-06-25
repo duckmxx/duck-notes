@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ note.title }} - duck-notes</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="icon" href="/static/favicon.ico">
+</head>
+<body>
+    <a class="back-link" href="/">Back to notes</a>
+
+    <article class="full-note">
+        <form action="/note/{{ note.id }}/edit" method="POST" class="note-form">
+            <label for="title">Title</label>
+            <input id="title" name="title" value="{{ note.title }}" required>
+            
+            <label for="content">Content</label>
+            <textarea id="content" name="content" required>{{ note.content }}</textarea>
+
+            <button type="submit">Save Changes</button>
+        </form>
+    </article>
+</body>
+</html>

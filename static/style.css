@@ -5,15 +5,51 @@ body {
     font-family: Arial, sans-serif;
     
     margin: 0;
-    padding-left: 20px;
+    padding: 20px;
 }
 
 .note {
     background: #1e1e1e;
-    padding: 10px;
-    margin: 15px 0;
+    color: white;
+    padding: 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.note:hover {
+    background: #292929;
+}
+
+.note p {
+    white-space: pre-wrap;
+}
+
+.notes-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 15px;
+
+    margin-bottom: 30px;
+}
+
+.full-note {
+    max-width: 1500px;
+    margin: 25px auto;
+    padding: 24px;
+    background: #1e1e1e;
     border-radius: 8px;
 }
+
+.full-note p {
+    white-space: pre-wrap;
+}
+
+.back-link {
+    color: white;
+}
+
+
 
 .note-form {
     display: flex;
@@ -25,11 +61,16 @@ body {
 
 .note-form input,
 .note-form textarea {
-    padding: 18px;
-    font-size: 16px;
+    padding: 10px;
+    font: inherit;
 }
 
 .note-form textarea {
     min-height: 120px;
     resize: vertical;
+}
+
+.note-form button {
+    padding: 10px;
+    cursor: pointer;
 }

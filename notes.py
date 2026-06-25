@@ -1,5 +1,6 @@
 import json
 import os
+import uuid
 
 file_path = "notes.json"
 
@@ -30,35 +31,36 @@ def display_json(file_path):
         return
     for index, note in enumerate(notes):
         print(f"Notes entry number {index + 1}.")
+        print(f"UUID: {note['id']}")
         print(f"Title: {note['title']}")
         print(f"Contents: {note['content']}")
         print("--------------------------")
 
 def save_note(file_path, title, content):
     notes = read_json(file_path)
-    notes.append({"title": title, "content": content})
-    
+    note = {
+        "id": str(uuid.uuid4()),
+        "title": title,
+        "content": content
+    }
+
+    notes.append(note)
     write_json(notes, file_path)
     print("Note appended.\n")
 
-def edit_note(file_path, note_index, new_title=None, new_content=None):
+def edit_note(file_path, note_id, new_title=None, new_content=None):
     notes = read_json(file_path)
-    if not notes:
-        print("Wow, can't edit nothing can you\n")
-        return
-    if note_index < 1 or note_index > len(notes):
-        print("Invalid note number.\n")
-        return
-    note = notes[note_index - 1]
-
-    if new_title is not None:
-        note["title"] = new_title
-    if new_content is not None:
-        note["content"] = new_content
     
-    write_json(notes, file_path)
-    print("Note edited.\n")
-
+    for note in notes:
+        if note["id"] == note_id:
+            if new_title is not None:
+                note["title"] = new_title
+            if new_content is not None:
+                note["content"] = new_content
+            write_json(notes, file_path)
+            return True
+    
+    return False
 
 
 def delete_note(file_path, note_index):
