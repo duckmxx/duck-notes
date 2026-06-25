@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect
-from notes import check_create_file, read_json, file_path, save_note, edit_note
+from notes import check_create_file, read_json, file_path, create_empty_note, edit_note, delete_note
 
 app = Flask(__name__)
 
@@ -14,6 +14,8 @@ def home():
         notes = read_json(file_path)
     )
 
+
+#Deprecated but still useful in the future if theres ever a need to make a new note with specific stuff
 @app.route("/add", methods=["POST"])
 def add_note_route():
     print(request.form)
@@ -22,6 +24,13 @@ def add_note_route():
 
     save_note(file_path, title, content)
     return redirect("/")  
+
+@app.route("/note/new", methods=["POST"])
+def create_note():
+    new_note = create_empty_note(file_path)
+
+    return redirect(f"/note/{new_note['id']}")
+
 
 @app.route("/note/<note_id>")
 def view_note(note_id):
@@ -42,6 +51,14 @@ def edit_note_route(note_id):
         return "Note not found", 404
 
     return redirect(f"/note/{note_id}")
+
+@app.route("/note/<note_id>/delete", methods=["POST"])
+def delete_note_route(note_id):
+    delete_note(file_path, note_id)
+    
+    return redirect("/")
+
+
 
 if __name__ == "__main__":
     app.run()

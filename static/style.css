@@ -49,8 +49,6 @@ body {
     color: white;
 }
 
-
-
 .note-form {
     display: flex;
     flex-direction: column;
@@ -72,5 +70,11 @@ body {
 
 .note-form button {
     padding: 10px;
+    cursor: pointer;
+}
+
+.delete-btn {
+    margin-top: 12px;
+    padding: 8px 12px;
     cursor: pointer;
 }

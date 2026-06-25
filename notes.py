@@ -36,16 +36,17 @@ def display_json(file_path):
         print(f"Contents: {note['content']}")
         print("--------------------------")
 
-def save_note(file_path, title, content):
+def create_empty_note(file_path):
     notes = read_json(file_path)
     note = {
         "id": str(uuid.uuid4()),
-        "title": title,
-        "content": content
+        "title": "",
+        "content": ""
     }
 
     notes.append(note)
     write_json(notes, file_path)
+    return note
     print("Note appended.\n")
 
 def edit_note(file_path, note_id, new_title=None, new_content=None):
@@ -63,18 +64,16 @@ def edit_note(file_path, note_id, new_title=None, new_content=None):
     return False
 
 
-def delete_note(file_path, note_index):
+def delete_note(file_path, note_id):
     notes = read_json(file_path)
-    if not notes:
-        print("Wow, can't delete nothing can you\n")
-        return
-    if note_index < 1 or note_index > len(notes):
-        print("Invalid note number.\n")
-        return
-    note_to_delete = notes[note_index - 1]
-    print(f'Deleting note "{note_to_delete["title"]}"')
-    notes.pop(note_index - 1)
-    write_json(notes, file_path)
+    
+    for index, note in enumerate(notes):
+        if note["id"] == note_id:
+            deleted_note = notes.pop(index)
+           
+            write_json(notes, file_path)
+            return deleted_note
+            
         
 
 

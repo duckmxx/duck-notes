@@ -13,12 +13,16 @@
     <article class="full-note">
         <form action="/note/{{ note.id }}/edit" method="POST" class="note-form">
             <label for="title">Title</label>
-            <input id="title" name="title" value="{{ note.title }}" required>
+            <input id="title" name="title" value="{{ note.title }}" required autofocus>
             
             <label for="content">Content</label>
             <textarea id="content" name="content" required>{{ note.content }}</textarea>
 
             <button type="submit">Save Changes</button>
+        </form>
+
+        <form action="/note/{{ note.id }}/delete" method="POST">
+            <button type="submit" class="delete-btn">Delete note</button>
         </form>
     </article>
 </body>
