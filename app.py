@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect
-from notes import check_create_file, read_json, file_path, create_empty_note, edit_note, delete_note
+from notes import check_create_file, read_json, file_path, create_empty_note, edit_note, delete_note, delete_empty_notes
 
 app = Flask(__name__)
 
@@ -8,6 +8,7 @@ check_create_file(file_path)
 
 @app.route("/")
 def home():
+    delete_empty_notes(file_path)
     return render_template(
         "home.html",
         name="Yanny",
@@ -61,4 +62,4 @@ def delete_note_route(note_id):
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(host="0.0.0.0", port=5000)

@@ -46,21 +46,30 @@ def create_empty_note(file_path):
 
     notes.append(note)
     write_json(notes, file_path)
+    print(f"Note {note['id']} appended.")
     return note
-    print("Note appended.\n")
 
 def edit_note(file_path, note_id, new_title=None, new_content=None):
     notes = read_json(file_path)
-    
+
     for note in notes:
         if note["id"] == note_id:
-            if new_title is not None:
+            
+            changed_fields=[]
+            
+            if new_title is not None and new_title != note["title"]:
                 note["title"] = new_title
-            if new_content is not None:
+                changed_fields.append("title")
+            if new_content is not None and new_content != note["content"]:
                 note["content"] = new_content
+                changed_fields.append("content")
             write_json(notes, file_path)
+            print(f"Edited note: {note_id}: {', '.join(changed_fields) if changed_fields else 'no changes'}")
+            
             return True
-    
+
+    print(f"Edit failed: note not found {note_id}")
+
     return False
 
 
@@ -70,10 +79,38 @@ def delete_note(file_path, note_id):
     for index, note in enumerate(notes):
         if note["id"] == note_id:
             deleted_note = notes.pop(index)
-           
             write_json(notes, file_path)
-            return deleted_note
+            print(f"Deleted note: {note['id']}")
             
+            return deleted_note
+
+            
+
+def delete_empty_notes(file_path):
+    notes = read_json(file_path)
+
+    kept_notes = []
+    deleted_count = 0
+
+    for note in notes:
+        title = note["title"].strip()
+        content = note["title"].strip()
+
+        if title or content:
+            kept_notes.append(note)
+        else:
+            deleted_count += 1
+            print(f"Deleted empty note: {note['id']}")
+        
+    if deleted_count > 0:
+        write_json(kept_notes, file_path)
+        print(f"Cleanup finished: removed {deleted_count} empty note(s)")
+    else:
+        print("No empty notes found")
+
+
+
+
         
 
 
